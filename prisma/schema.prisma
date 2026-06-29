@@ -1,0 +1,180 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Company {
+  id            String         @id @default(cuid())
+  name          String
+  slug          String         @unique
+  description   String
+  category      String
+  fundingTotal  BigInt
+  employeeCount Int
+  foundedYear   Int
+  hqCity        String
+  hqCountry     String
+  logoUrl       String?
+  website       String?
+  stage         CompanyStage
+  valuation     BigInt?
+  isUnicorn     Boolean        @default(false)
+  viewCount     Int            @default(0)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  searchVector  String?
+  news          CompanyNews[]
+  founders      Founder[]
+  fundingRounds FundingRound[]
+  investments   Investment[]
+  products      Product[]
+
+  @@index([category])
+  @@index([stage])
+  @@index([hqCountry])
+}
+
+model Founder {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  title     String
+  bio       String
+  twitter   String?
+  linkedin  String?
+  location  String?
+  photoUrl  String?
+  companyId String
+  createdAt DateTime @default(now())
+  company   Company  @relation(fields: [companyId], references: [id])
+}
+
+model Product {
+  id          String          @id @default(cuid())
+  name        String
+  slug        String          @unique
+  description String
+  category    ProductCategory
+  launchDate  DateTime?
+  upvotes     Int             @default(0)
+  websiteUrl  String?
+  companyId   String
+  viewCount   Int             @default(0)
+  createdAt   DateTime        @default(now())
+  company     Company         @relation(fields: [companyId], references: [id])
+}
+
+model Investor {
+  id             String         @id @default(cuid())
+  name           String
+  slug           String         @unique
+  type           InvestorType
+  bio            String
+  aum            BigInt?
+  portfolioCount Int            @default(0)
+  location       String
+  logoUrl        String?
+  stageFocus     String[]
+  sectorFocus    String[]
+  viewCount      Int            @default(0)
+  createdAt      DateTime       @default(now())
+  leadRounds     FundingRound[]
+  investments    Investment[]
+}
+
+model FundingRound {
+  id             String           @id @default(cuid())
+  roundType      FundingRoundType
+  amount         BigInt
+  currency       String
+  date           DateTime
+  companyId      String
+  leadInvestorId String
+  company        Company          @relation(fields: [companyId], references: [id])
+  leadInvestor   Investor         @relation(fields: [leadInvestorId], references: [id])
+  investments    Investment[]
+}
+
+model Investment {
+  id             String       @id @default(cuid())
+  investorId     String
+  fundingRoundId String
+  companyId      String
+  company        Company      @relation(fields: [companyId], references: [id])
+  fundingRound   FundingRound @relation(fields: [fundingRoundId], references: [id])
+  investor       Investor     @relation(fields: [investorId], references: [id])
+
+  @@unique([investorId, fundingRoundId])
+}
+
+model NewsArticle {
+  id          String        @id @default(cuid())
+  title       String
+  url         String
+  source      String
+  tag         String
+  summary     String
+  viewCount   Int          @default(0)
+  publishedAt DateTime
+  companies   CompanyNews[]
+}
+
+model CompanyNews {
+  companyId String
+  newsId    String
+  company   Company     @relation(fields: [companyId], references: [id])
+  news      NewsArticle @relation(fields: [newsId], references: [id])
+
+  @@id([companyId, newsId])
+}
+
+model SearchLog {
+  id        String   @id @default(cuid())
+  query     String
+  createdAt DateTime @default(now())
+
+  @@index([query])
+  @@index([createdAt])
+}
+
+enum CompanyStage {
+  PRE_SEED
+  SEED
+  SERIES_A
+  SERIES_B
+  SERIES_C
+  SERIES_D
+  IPO
+}
+
+enum InvestorType {
+  VC
+  ANGEL
+  CORPORATE
+}
+
+enum FundingRoundType {
+  PRE_SEED
+  SEED
+  SERIES_A
+  SERIES_B
+  SERIES_C
+  SERIES_D
+  IPO
+}
+
+enum ProductCategory {
+  CHAT
+  CODE
+  IMAGE
+  VIDEO
+  AUDIO
+  AGENT
+  SEARCH
+  PRODUCTIVITY
+  OTHER
+}

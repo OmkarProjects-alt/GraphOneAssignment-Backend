@@ -1,0 +1,537 @@
+{
+  "info": {
+    "_postman_id": "c23c566e-d251-4872-ae08-e6c5670c7545",
+    "name": "GraphOne Backend API",
+    "description": "# GraphOne Backend API\n\nGraphOne is a startup and tech ecosystem intelligence platform that aggregates data on companies, investors, products, founders, and industry news. This API provides programmatic access to all core platform resources.\n\n## Base URL\n\n```\nhttp://localhost:5000/api/v1\n\n ```\n\n## Resources\n\n| Resource | Description |\n| --- | --- |\n| **Companies** | Browse, search, and manage startup/company profiles including funding timelines and products |\n| **Investors** | Explore investor profiles, activity rankings, and investment portfolios |\n| **Products** | Discover and retrieve product listings associated with companies |\n| **News** | Access the latest and trending news articles in the tech ecosystem |\n| **Search** | Full-text global search, autocomplete suggestions, and trending search terms |\n| **Founders** | Look up founder profiles and their associated ventures |\n| **Stats** | Retrieve high-level platform-wide statistics and metrics |\n\n## Authentication\n\nNo authentication headers are currently configured at the collection level. If the API requires an API key or Bearer token, add it to the collection-level **Authorization** tab so all requests inherit it automatically.\n\n## Versioning\n\nAll endpoints are versioned under `/api/v1/`. Ensure you are targeting the correct version when integrating with this API.\n\n## Notes\n\n- The API is currently running on `localhost:5000` — update the base URL to the appropriate staging or production host before deploying.\n    \n- Slug-based endpoints (e.g., `/companies/:slug`) use human-readable identifiers rather than numeric IDs.\n    \n- Use the **Search** endpoints for discovery before fetching specific resources by slug.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "38419353"
+  },
+  "item": [
+    {
+      "name": "Companies",
+      "item": [
+        {
+          "name": "GET Companies",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/v1/companies",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "companies"
+              ]
+            },
+            "description": "Returns a paginated list of all companies on the platform. Supports optional filtering and pagination via query parameters.\n\n## Query Parameters\n\n| Parameter | Type | Description |\n| --- | --- | --- |\n| `page` | number | Optional. Page number for pagination. |\n| `limit` | number | Optional. Number of results per page. |\n| `filter` | string | Optional. Filter companies by a specific field or value. |\n\n## Response\n\nReturns a paginated array of company objects. Each object includes company metadata such as name, slug, category, stage, funding total, employee count, and location."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Company by Slug",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/v1/companies/openai",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "companies",
+                "openai"
+              ]
+            },
+            "description": "Fetches the detailed profile of a single company identified by its URL-friendly slug (e.g., `openai`). Returns company metadata including name, category, funding, employee count, stage, and location.\n\n## Path Parameters\n\n| Parameter | Type | Description |\n| --- | --- | --- |\n| `slug` | string | Required. The URL-friendly identifier of the company (e.g., `openai`, `stripe`). |\n\n## Response\n\nReturns a single company object with full profile details including:\n\n- `id` — Unique identifier\n    \n- `name` — Company name\n    \n- `slug` — URL-friendly identifier\n    \n- `category` — Industry or product category\n    \n- `stage` — Funding stage (e.g., `SEED`, `SERIES_A`, `IPO`)\n    \n- `fundingTotal` — Total funding raised\n    \n- `employeeCount` — Number of employees\n    \n- `foundedYear` — Year the company was founded\n    \n- `hqCity` / `hqCountry` — Headquarters location"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Company Funding Timeline",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "API_KEY",
+                "value": "graphone_secret_2026",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"OpenAI\",\r\n  \"description\": \"Leading artificial intelligence research company building foundation models.\",\r\n  \"category\": \"Foundation Models\",\r\n  \"fundingTotal\": 13000000000,\r\n  \"employeeCount\": 5000,\r\n  \"foundedYear\": 2015,\r\n  \"hqCity\": \"San Francisco\",\r\n  \"hqCountry\": \"USA\",\r\n  \"logoUrl\": \"https://logo.clearbit.com/openai.com\",\r\n  \"website\": \"https://openai.com\",\r\n  \"stage\": \"IPO\",\r\n  \"valuation\": 300000000000,\r\n  \"isUnicorn\": true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/v1/companies/openai/funding",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "companies",
+                "openai",
+                "funding"
+              ]
+            },
+            "description": "Returns a chronological list of funding rounds for a specific company identified by its slug. Each entry includes the round stage, amount raised, date, and investor details.\n\n## Headers\n\n| Key | Value | Description |\n| --- | --- | --- |\n| `Content-Type` | `application/json` | Required. Indicates the request format. |\n\n## Path Parameters\n\n| Parameter | Type | Description |\n| --- | --- | --- |\n| `slug` | string | Required. The URL-friendly identifier of the company (e.g., `openai`, `stripe`). |\n\n## Response\n\nReturns an array of funding round objects in chronological order. Each object includes:\n\n- `stage` — Round stage (e.g., `SEED`, `SERIES_A`, `SERIES_B`)\n    \n- `amount` — Amount raised in the round\n    \n- `date` — Date the round was announced or closed\n    \n- `investors` — List of investors who participated in the round"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Company Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/v1/companies/openai/products",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "companies",
+                "openai",
+                "products"
+              ]
+            },
+            "description": "Lists all products built or owned by a specific company, identified by its slug. Returns product names, slugs, descriptions, and related metadata.\n\n## Path Parameters\n\n| Parameter | Type | Description |\n| --- | --- | --- |\n| `slug` | string | Required. The URL-friendly identifier of the company (e.g., `openai`, `stripe`). |\n\n## Response\n\nReturns an array of product objects associated with the specified company. Each object includes:\n\n- `name` — Product name\n    \n- `slug` — URL-friendly product identifier\n    \n- `description` — Short description of the product\n    \n- Additional metadata such as category, launch date, or status where available"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Trending Companies",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/v1/companies/trending",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "companies",
+                "trending"
+              ]
+            },
+            "description": "Returns a list of companies currently gaining the most traction on the platform, ranked by engagement or activity metrics.\n\n## Response\n\nReturns an ordered array of trending company objects. Companies are ranked by platform engagement or activity signals. Each object includes standard company metadata such as:\n\n- `name` — Company name\n    \n- `slug` — URL-friendly identifier\n    \n- `category` — Industry or product category\n    \n- `stage` — Current funding stage\n    \n- `fundingTotal` — Total funding raised\n    \n- Engagement or trending score where available"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Company",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "API_KEY",
+                "value": "graphone_secret_2026",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"OpenAI\",\r\n  \"description\": \"AI company leading artificial intelligence research company building foundation models.\",\r\n  \"category\": \"AI\",\r\n  \"fundingTotal\": 1000000,\r\n  \"employeeCount\": 100,\r\n  \"foundedYear\": 2015,\r\n  \"hqCity\": \"San Francisco\",\r\n  \"hqCountry\": \"USA\",\r\n  \"stage\": \"SEED\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/v1/companies",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "companies"
+              ]
+            },
+            "description": "Creates a new company record on the platform. Requires `API_KEY` authentication. Returns the created company object with a generated `id` and `slug` on success (`201 Created`).\n\n## Headers\n\n| Key | Value | Description |\n|-----|-------|-------------|\n| `API_KEY` | `graphone_secret_2026` | Required. API key for authenticating the request. |\n\n## Request Body\n\nSend a JSON object with the following fields:\n\n| Field | Type | Required | Description |\n|-------|------|----------|-------------|\n| `name` | string | Yes | The company's display name. |\n| `description` | string | Yes | A short description of the company. |\n| `category` | string | Yes | Industry or product category. |\n| `fundingTotal` | number | Yes | Total funding raised (in USD or base currency). |\n| `employeeCount` | number | Yes | Current number of employees. |\n| `foundedYear` | number | Yes | Year the company was founded. |\n| `hqCity` | string | Yes | City where the company is headquartered. |\n| `hqCountry` | string | Yes | Country where the company is headquartered. |\n| `stage` | string | Yes | Funding stage — one of `SEED`, `SERIES_A`, `SERIES_B`, ..., `IPO`. |\n\n## Response\n\nOn success, returns `201 Created` with the newly created company object:\n\n| Field | Type | Description |\n|-------|------|-------------|\n| `id` | string | Auto-generated unique identifier. |\n| `name` | string | Company name. |\n| `slug` | string | Auto-generated URL-friendly identifier. |\n| `category` | string | Industry or product category. |\n| `stage` | string | Funding stage. |\n| `fundingTotal` | string | Total funding raised. |\n| `employeeCount` | number | Number of employees. |\n| `foundedYear` | number | Year founded. |\n| `hqCity` | string | Headquarters city. |\n| `hqCountry` | string | Headquarters country. |\n| `logoUrl` | null | Logo URL (null at creation). |\n| `website` | null | Website URL (null at creation). |\n| `valuation` | null | Company valuation (null at creation). |\n| `isUnicorn` | boolean | Whether the company is valued at $1B+. |\n| `createdAt` | string | ISO 8601 timestamp of when the record was created. |"
+          },
+          "response": []
+        }
+      ],
+      "description": "## Companies\n\nEndpoints for browsing, retrieving, and managing company profiles on the GraphOne platform.\n\nThis folder covers:\n- **Listing** all companies with optional filtering and pagination\n- **Fetching** a specific company by its unique slug\n- **Funding timeline** — a chronological history of funding rounds for a company\n- **Products** — products built or owned by a specific company\n- **Trending** — companies currently gaining traction on the platform\n- **Creating** a new company record\n\nCompany resources are identified by a URL-friendly **slug** (e.g., `openai`) rather than a numeric ID."
+    },
+    {
+      "name": "Investors",
+      "item": [
+        {
+          "name": "GET Investors",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/v1/investors",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "investors"
+              ]
+            },
+            "description": "## GET Investors\n\nReturns a paginated list of all investors on the platform. Supports optional filtering and pagination via query parameters.\n\n**Endpoint:** `GET /api/v1/investors`\n\n---\n\n### Query Parameters\n\n| Parameter | Type | Required | Description |\n| --- | --- | --- | --- |\n| `page` | integer | No | Page number for pagination (default: 1). |\n| `limit` | integer | No | Number of results per page (default: 10). |\n| `type` | string | No | Filter investors by type (e.g., `vc`, `angel`, `corporate`). |\n| `location` | string | No | Filter investors by geographic location. |\n\n---\n\n### Response\n\nReturns a paginated JSON object containing a list of investor records.\n\n**Success —** **`200 OK`**\n\n``` json\n{\n  \"success\": true,\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"slug\": \"string\",\n      \"type\": \"string\",\n      \"location\": \"string\",\n      \"totalInvestments\": 0\n    }\n  ],\n  \"pagination\": {\n    \"page\": 1,\n    \"limit\": 10,\n    \"total\": 100\n  }\n}\n\n ```\n\n**Error —** **`500 Internal Server Error`** — Unexpected server-side error."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Investor Profile",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/v1/investors/sequoia-capital",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "investors",
+                "sequoia-capital"
+              ]
+            },
+            "description": "## Get Investor Profile\n\nFetches the detailed profile of a specific investor identified by their URL-friendly slug (e.g., `sequoia-capital`). Returns investor metadata including name, type, location, and portfolio summary.\n\n**Endpoint:** `GET /api/v1/investors/:slug`\n\n---\n\n### Path Parameters\n\n| Parameter | Type | Required | Description |\n| --- | --- | --- | --- |\n| `slug` | string | Yes | The URL-friendly unique identifier of the investor (e.g., `sequoia-capital`, `andreessen-horowitz`). |\n\n---\n\n### Response\n\nReturns a detailed JSON object representing the investor's full profile.\n\n**Success —** **`200 OK`**\n\n``` json\n{\n  \"success\": true,\n  \"data\": {\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"slug\": \"string\",\n    \"type\": \"string\",\n    \"location\": \"string\",\n    \"founded\": \"string\",\n    \"website\": \"string\",\n    \"description\": \"string\",\n    \"portfolioSummary\": {\n      \"totalInvestments\": 0,\n      \"totalCompanies\": 0,\n      \"activeInvestments\": 0\n    }\n  }\n}\n\n ```\n\n**Error —** **`404 Not Found`** — No investor found matching the provided slug.  \n**Error —** **`500 Internal Server Error`** — Unexpected server-side error."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Most Active Investors",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/v1/investors/most-active",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "investors",
+                "most-active"
+              ]
+            },
+            "description": "## Get Most Active Investors\n\nReturns a ranked list of investors ordered by deal volume or investment activity on the platform. Useful for identifying the most prolific investors within a given period or across all time.\n\n**Endpoint:** `GET /api/v1/investors/most-active`\n\n---\n\n### Query Parameters\n\n| Parameter | Type | Required | Description |\n| --- | --- | --- | --- |\n| `limit` | integer | No | Number of top investors to return (default: 10). |\n| `period` | string | No | Time period to filter activity (e.g., `30d`, `90d`, `1y`, `all`). |\n\n---\n\n### Response\n\nReturns a ranked JSON array of the most active investors based on deal volume or investment frequency.\n\n**Success —** **`200 OK`**\n\n``` json\n{\n  \"success\": true,\n  \"data\": [\n    {\n      \"rank\": 1,\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"slug\": \"string\",\n      \"type\": \"string\",\n      \"location\": \"string\",\n      \"totalDeals\": 0,\n      \"totalInvested\": \"string\"\n    }\n  ]\n}\n\n ```\n\n**Error —** **`500 Internal Server Error`** — Unexpected server-side error."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Investor Investments",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/v1/investors/sequoia-capital/investments",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "investors",
+                "sequoia-capital",
+                "investments"
+              ]
+            },
+            "description": "## Get Investor Investments\n\nLists the full investment portfolio of a specific investor identified by their slug. Returns details of each investment including company name, round stage, amount, and date.\n\n**Endpoint:** `GET /api/v1/investors/:slug/investments`\n\n---\n\n### Path Parameters\n\n| Parameter | Type | Required | Description |\n| --- | --- | --- | --- |\n| `slug` | string | Yes | The URL-friendly unique identifier of the investor (e.g., `sequoia-capital`). |\n\n### Query Parameters\n\n| Parameter | Type | Required | Description |\n| --- | --- | --- | --- |\n| `page` | integer | No | Page number for pagination (default: 1). |\n| `limit` | integer | No | Number of investment records per page (default: 10). |\n| `stage` | string | No | Filter by funding round stage (e.g., `seed`, `series-a`, `series-b`). |\n\n---\n\n### Response\n\nReturns a paginated JSON array of investment records associated with the specified investor.\n\n**Success —** **`200 OK`**\n\n``` json\n{\n  \"success\": true,\n  \"data\": [\n    {\n      \"company\": {\n        \"name\": \"string\",\n        \"slug\": \"string\"\n      },\n      \"roundStage\": \"string\",\n      \"amount\": \"string\",\n      \"date\": \"string\",\n      \"leadInvestor\": true\n    }\n  ],\n  \"pagination\": {\n    \"page\": 1,\n    \"limit\": 10,\n    \"total\": 50\n  }\n}\n\n ```\n\n**Error —** **`404 Not Found`** — No investor found matching the provided slug.  \n**Error —** **`500 Internal Server Error`** — Unexpected server-side error."
+          },
+          "response": []
+        }
+      ],
+      "description": "## Investors\n\nEndpoints for exploring investor profiles and their investment activity on the GraphOne platform.\n\nThis folder covers:\n- **Listing** all investors with optional filtering\n- **Investor profile** — detailed information about a specific investor by slug\n- **Most active investors** — a ranked list of investors by deal volume or activity\n- **Investments** — the portfolio of investments made by a specific investor\n\nInvestor resources are identified by a URL-friendly **slug** (e.g., `sequoia-capital`)."
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "GET Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/v1/products",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "products"
+              ]
+            },
+            "description": "## GET Products\n\nReturns a paginated list of all products across the platform. Supports optional filtering and pagination via query parameters.\n\n### Base URL\n\n`http://localhost:5000/api/v1/products`\n\n### Query Parameters\n\n| Parameter | Type | Required | Description |\n| --- | --- | --- | --- |\n| `page` | integer | No | Page number for pagination (default: 1) |\n| `limit` | integer | No | Number of results per page (default varies by server config) |\n| `filter` | string | No | Optional filter criteria to narrow down product results |\n\n### Response\n\nReturns a paginated JSON object containing:\n\n- A list of product records with their metadata\n    \n- Pagination details such as current page, total pages, and total count\n    \n\n### Example Response\n\n``` json\n{\n  \"data\": [...],\n  \"page\": 1,\n  \"limit\": 10,\n  \"total\": 100\n}\n\n ```"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Product by Slug",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/v1/products/d8syzxufya",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "products",
+                "d8syzxufya"
+              ]
+            },
+            "description": "## Get Product by Slug\n\nFetches the detailed profile of a specific product identified by its URL-friendly slug. Returns product metadata including name, description, category, and the company it belongs to.\n\n### Base URL\n\n`http://localhost:5000/api/v1/products/:slug`\n\n### Path Parameters\n\n| Parameter | Type | Required | Description |\n| --- | --- | --- | --- |\n| `slug` | string | Yes | The URL-friendly unique identifier of the product (e.g., `my-product-name`) |\n\n### Response\n\nReturns a JSON object containing the full product profile, including:\n\n- `name` — Display name of the product\n    \n- `description` — Detailed description of the product\n    \n- `category` — The category the product belongs to\n    \n- `company` — The company associated with the product\n    \n- Additional product metadata\n    \n\n### Example Response\n\n``` json\n{\n  \"id\": \"abc123\",\n  \"name\": \"Product Name\",\n  \"slug\": \"product-name\",\n  \"description\": \"A detailed description of the product.\",\n  \"category\": \"SaaS\",\n  \"company\": {\n    \"id\": \"xyz789\",\n    \"name\": \"Company Name\"\n  }\n}\n\n ```"
+          },
+          "response": []
+        }
+      ],
+      "description": "## Products\n\nEndpoints for discovering and retrieving product listings on the GraphOne platform.\n\nThis folder covers:\n- **Listing** all products across the platform\n- **Fetching** a specific product by its unique slug\n\nProducts are typically associated with a parent company and are identified by a URL-friendly **slug** (e.g., `d8syzxufya`)."
+    },
+    {
+      "name": "News",
+      "item": [
+        {
+          "name": "GET News",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/v1/news",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "news"
+              ]
+            },
+            "description": "## GET News\n\nRetrieves a paginated list of all news articles available on the platform.\n\n### Base URL\n\n`http://localhost:5000/api/v1/news`\n\n### Query Parameters\n\n| Parameter | Type | Required | Description |\n| --- | --- | --- | --- |\n| `topic` | string | Optional | Filter articles by a specific topic or category |\n| `company` | string | Optional | Filter articles related to a specific company |\n| `page` | integer | Optional | Page number for pagination (default: 1) |\n| `limit` | integer | Optional | Number of articles per page (default varies by server config) |\n\n### Response\n\nReturns a paginated JSON object containing a list of news articles. Each article typically includes the title, summary, publication date, associated company or topic tags, and a link to the full article.\n\n**Success —** **`200 OK`**\n\n``` json\n{\n  \"data\": [...],\n  \"page\": 1,\n  \"limit\": 10,\n  \"total\": 100\n}\n\n ```"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Trending News",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/v1/news/trending",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "news",
+                "trending"
+              ]
+            },
+            "description": "## Get Trending News\n\nRetrieves news articles that are currently trending on the platform — ranked by engagement metrics such as views, shares, or user interactions.\n\n### Base URL\n\n`http://localhost:5000/api/v1/news/trending`\n\n### Query Parameters\n\n| Parameter | Type | Required | Description |\n| --- | --- | --- | --- |\n| `limit` | integer | Optional | Number of trending articles to return (default varies by server config) |\n| `page` | integer | Optional | Page number for paginating through trending results |\n\n### Response\n\nReturns a JSON list of trending news articles ordered by engagement score. Each article typically includes the title, summary, publication date, engagement metrics, and associated tags or company references.\n\n**Success —** **`200 OK`**\n\n``` json\n{\n  \"data\": [...],\n  \"page\": 1,\n  \"limit\": 10,\n  \"total\": 20\n}\n\n ```"
+          },
+          "response": []
+        }
+      ],
+      "description": "## News\n\nEndpoints for accessing news articles and editorial content within the GraphOne platform.\n\nThis folder covers:\n- **Listing** all news articles, optionally filtered by topic or company\n- **Trending news** — articles currently receiving the most engagement on the platform"
+    },
+    {
+      "name": "Search",
+      "item": [
+        {
+          "name": "Global Search",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/v1/search?q=openai",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "openai"
+                }
+              ]
+            },
+            "description": "Performs a full-text search across all resource types on the platform, including companies, investors, products, and founders.\n\n**Endpoint:** `GET /api/v1/search`\n\n**Query Parameters**\n\n| Parameter | Type | Required | Description |\n| --- | --- | --- | --- |\n| `q` | string | Yes | The search term to query across all resource types |\n\n**Response**\n\nReturns categorized search results grouped by resource type (companies, investors, products, founders), each containing matching records relevant to the provided search term."
+          },
+          "response": []
+        },
+        {
+          "name": "Search Autocomplete",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/v1/search/autocomplete?q=op",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "search",
+                "autocomplete"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "op"
+                }
+              ]
+            },
+            "description": "Returns real-time prefix-based autocomplete suggestions as the user types, enabling a search-as-you-type UI experience.\n\n**Endpoint:** `GET /api/v1/search/autocomplete`\n\n**Query Parameters**\n\n| Parameter | Type | Required | Description |\n| --- | --- | --- | --- |\n| `q` | string | Yes | The prefix string typed by the user to generate autocomplete suggestions |\n\n**Response**\n\nReturns a list of autocomplete suggestions matching the provided prefix. Designed for low-latency, real-time use cases where suggestions update with each keystroke."
+          },
+          "response": []
+        },
+        {
+          "name": "Trending Searches",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/v1/search/trending",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "search",
+                "trending"
+              ]
+            },
+            "description": "Returns the most popular search terms currently being used on the platform, useful for surfacing trending topics and popular queries to users.\n\n**Endpoint:** `GET /api/v1/search/trending`\n\n**Query Parameters**\n\nNone required.\n\n**Response**\n\nReturns an ordered list of trending search terms based on current platform activity. Can be used to populate a \"Trending\" section in search UIs or to guide users toward popular content."
+          },
+          "response": []
+        }
+      ],
+      "description": "## Search\n\nEndpoints for discovering content across the GraphOne platform via full-text search and intelligent suggestions.\n\nThis folder covers:\n\n- **Global search** — search across all resource types (companies, investors, products, founders) using a query string\n    \n- **Autocomplete** — real-time prefix-based suggestions as the user types\n    \n- **Trending searches** — the most popular search terms on the platform right now\n    \n\nAll search endpoints accept a `q` query parameter for the search term."
+    },
+    {
+      "name": "Founders",
+      "item": [
+        {
+          "name": "Get Founder Profile",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/founders/sam-altman",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "founders",
+                "sam-altman"
+              ]
+            },
+            "description": "Fetches the biographical and professional details of a founder identified by their URL-friendly slug.\n\n**Base URL:** `http://localhost:5000/founders/:slug`\n\n> **Note:** This endpoint does **not** use the `/api/v1/` prefix. \n  \n\n## Path Parameters\n\n| Parameter | Type | Required | Description |\n| --- | --- | --- | --- |\n| `slug` | string | ✅ Yes | The URL-friendly identifier of the founder (e.g., `sam-altman`). |\n\n## Response\n\nReturns a JSON object containing the founder's biographical and professional details, including:\n\n- **name** — Full name of the founder\n    \n- **bio** — Short biographical description\n    \n- **companies** — List of companies the founder is associated with\n    \n- **social_links** — Links to the founder's social media profiles (e.g., LinkedIn, Twitter/X)"
+          },
+          "response": []
+        }
+      ],
+      "description": "## Founders\n\nEndpoints for retrieving founder profiles on the GraphOne platform.\n\nThis folder covers:\n- **Founder profile** — detailed biographical and professional information about a specific founder\n\nFounders are identified by a URL-friendly **slug** (e.g., `sam-altman`). Note that the founder endpoints use the path `/founders/:slug` (without the `/api/v1/` prefix)."
+    },
+    {
+      "name": "Stats",
+      "item": [
+        {
+          "name": "Get Platform Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/v1/stats",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "stats"
+              ]
+            },
+            "description": "Returns high-level platform-wide metrics and aggregate statistics for the GraphOne platform.\n\n**Base URL:** `http://localhost:5000/api/v1/stats`\n\n## Path Parameters\n\nNone — this is a top-level stats endpoint with no path parameters.\n\n## Response\n\nReturns a JSON object containing aggregate counts and platform-wide metrics, including:\n\n- **companies** — Total number of companies registered on the platform\n    \n- **investors** — Total number of investors registered on the platform\n    \n- **products** — Total number of products listed\n    \n- **news_articles** — Total number of news articles indexed\n    \n- **founders** — Total number of founders registered on the platform"
+          },
+          "response": []
+        }
+      ],
+      "description": "## Stats\n\nEndpoints for retrieving aggregated platform-wide statistics and metrics.\n\nThis folder covers:\n- **Platform stats** — high-level counts and metrics such as total companies, investors, products, and news articles indexed on the GraphOne platform"
+    }
+  ]
+}
