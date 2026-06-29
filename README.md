@@ -6,6 +6,10 @@
 ![Prisma](https://img.shields.io/badge/Prisma-ORM-2D3748)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-blue)
 
+## Live API
+
+https://graphone-api-w49g.onrender.com/api/v1
+
 A production-grade REST API built with Node.js, Express, TypeScript, Prisma, and PostgreSQL for the GraphOne intelligence platform.
 
 The API models relationships between companies, investors, founders, products, funding rounds, and news while providing search, filtering, pagination, analytics, validation, and consistent API responses.
@@ -76,7 +80,6 @@ PostgreSQL
 ```
 src
 │
-├── config
 ├── controllers
 ├── lib
 ├── middleware
@@ -218,7 +221,7 @@ Error
 ### Get Companies
 
 ```
-GET /companies
+GET /api/v1/companies
 ```
 
 Query Parameters
@@ -237,7 +240,7 @@ Query Parameters
 ### Get Company
 
 ```
-GET /companies/:slug
+GET /api/v1/companies/:slug
 ```
 
 Returns
@@ -252,7 +255,7 @@ Returns
 ### Company Funding Timeline
 
 ```
-GET /companies/:slug/funding
+GET /api/v1/companies/:slug/funding
 ```
 
 ---
@@ -260,7 +263,7 @@ GET /companies/:slug/funding
 ### Company Products
 
 ```
-GET /companies/:slug/products
+GET /api/v1/companies/:slug/products
 ```
 
 ---
@@ -268,7 +271,7 @@ GET /companies/:slug/products
 ### Trending Companies
 
 ```
-GET /companies/trending
+GET /api/v1/companies/trending
 ```
 
 Returns top 10 companies ordered by view count.
@@ -278,7 +281,7 @@ Returns top 10 companies ordered by view count.
 ### Create Company
 
 ```
-POST /companies
+POST /api/v1/companies
 ```
 
 Protected by API Key.
@@ -286,7 +289,7 @@ Protected by API Key.
 Header
 
 ```
-X-API-Key: your-api-key
+API-Key: your-api-key
 ```
 
 ---
@@ -296,7 +299,7 @@ X-API-Key: your-api-key
 ### List Investors
 
 ```
-GET /investors
+GET /api/v1/investors
 ```
 
 Supports
@@ -311,7 +314,7 @@ Supports
 ### Investor Profile
 
 ```
-GET /investors/:slug
+GET /api/v1/investors/:slug
 ```
 
 Returns
@@ -326,7 +329,7 @@ Returns
 ### Investment History
 
 ```
-GET /investors/:slug/investments
+GET /api/v1/investors/:slug/investments
 ```
 
 Paginated.
@@ -336,7 +339,7 @@ Paginated.
 ### Most Active Investors
 
 ```
-GET /investors/most-active
+GET /api/v1/investors/most-active
 ```
 
 Ranks investors by recent deal activity.
@@ -348,7 +351,7 @@ Ranks investors by recent deal activity.
 ### List Products
 
 ```
-GET /products
+GET /api/v1/products
 ```
 
 Supports
@@ -362,7 +365,7 @@ Supports
 ### Product Detail
 
 ```
-GET /products/:slug
+GET /api/v1/products/:slug
 ```
 
 Returns product with company information.
@@ -374,7 +377,7 @@ Returns product with company information.
 ### List News
 
 ```
-GET /news
+GET /api/v1/news
 ```
 
 Supports
@@ -387,7 +390,7 @@ Supports
 ### Trending News
 
 ```
-GET /news/trending
+GET /api/v1/news/trending
 ```
 
 Returns top viewed news.
@@ -399,7 +402,7 @@ Returns top viewed news.
 ### Global Search
 
 ```
-GET /search?q=openai
+GET /api/v1/search?q=openai
 ```
 
 Searches across
@@ -416,7 +419,7 @@ Uses PostgreSQL Full Text Search.
 ### Autocomplete
 
 ```
-GET /search/autocomplete?q=op
+GET /api/v1/search/autocomplete?q=op
 ```
 
 Returns search suggestions.
@@ -426,7 +429,7 @@ Returns search suggestions.
 ### Trending Searches
 
 ```
-GET /search/trending
+GET /api/v1/search/trending
 ```
 
 Returns most searched keywords.
@@ -436,7 +439,7 @@ Returns most searched keywords.
 ## Founders
 
 ```
-GET /founders/:slug
+GET /api/v1/founders/:slug
 ```
 
 Returns founder profile with linked company.
@@ -446,7 +449,7 @@ Returns founder profile with linked company.
 ## Statistics
 
 ```
-GET /stats
+GET /api/v1/stats
 ```
 
 Returns
@@ -516,9 +519,23 @@ Clone
 git clone https://github.com/yourusername/graphone-backend.git
 ```
 
-Install
+---
+
+## Prerequisites
+
+Before running the API locally, make sure you have:
+
+- Node.js 22+
+- PostgreSQL
+- Redis (optional, used for caching/search cache)
+- npm
+
+---
+
+## Quick Start
 
 ```bash
+cd server
 npm install
 ```
 
@@ -554,7 +571,7 @@ npx prisma generate
 Push Database
 
 ```bash
-npx prisma db push
+npx prisma migrate dev
 ```
 
 Seed Database
@@ -582,15 +599,11 @@ npm start
 
 ---
 
-# Testing
+## Testing
 
 A complete Postman collection is included.
 
-Import
-
-```
-GraphOne.postman_collection.json
-```
+📄 **Postman Collection:** [GraphOne Backend API.postman_collection.json](./GraphOne%20Backend%20API.postman_collection.json)
 
 into Postman.
 
@@ -616,14 +629,3 @@ into Postman.
 **Omkar Gudappe**
 
 Backend Developer
-
-```
-
-## A couple of suggestions specific to your project
-
-1. Replace the GitHub URL with your repository.
-2. If you deploy the API, add a **Live API** section near the top.
-3. Add a **License** section if you plan to make the repository public.
-4. If you include a Postman collection, mention its filename exactly (e.g., `GraphOne.postman_collection.json`).
-
-This README is comprehensive without being unnecessarily long, and it clearly communicates the architecture, features, setup, and available endpoints.
