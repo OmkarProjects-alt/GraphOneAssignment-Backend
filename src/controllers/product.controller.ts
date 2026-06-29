@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
-import { AppError } from "../utils/error";
-import { getProducts, getProductBySlug } from "../services/product.service";
-import { getStringParam } from "../utils/safeParam";
+import { AppError } from "../utils/error.js";
+import { getProducts, getProductBySlug } from "../services/product.service.js";
+import { getStringParam } from "../utils/safeParam.js";
 
 export const listProducts = async (
     req: Request,

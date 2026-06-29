@@ -1,6 +1,6 @@
-import { prisma } from "../lib/prisma";
-import { getPagination } from "../utils/pagination";
-import { AppError } from "../utils/error";
+import { prisma } from "../lib/prisma.js";
+import { getPagination } from "../utils/pagination.js";
+import { AppError } from "../utils/error.js";
 
 export const getProducts = async (query: any) => {
 

@@ -6,9 +6,9 @@ import {
   trendingCompanies,
   companyFunding,
   companyProducts,
-} from "../controllers/company.controller";
-import { asyncHandler } from "../utils/asyncHandler";
-import { requireApiKey } from "../middleware/apiKey.middleware";
+} from "../controllers/company.controller.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { requireApiKey } from "../middleware/apiKey.middleware.js";
 
 const router = express.Router();
 

@@ -1,13 +1,13 @@
 import type { Request, Response } from "express";
-import { AppError } from "../utils/error";
+import { AppError } from "../utils/error.js";
 import {
   getInvestors,
   getInvestorProfile,
   getMostActiveInvestors,
   getInvestorInvestments,
-} from "../services/investor.service";
-import { getStringParam } from "../utils/safeParam";
-import { serializeBigInt } from "../utils/bigint";
+} from "../services/investor.service.js";
+import { getStringParam } from "../utils/safeParam.js";
+import { serializeBigInt } from "../utils/bigint.js";
 
 export const listInvestors = async (req: Request, res: Response) => {
   const result = await getInvestors(req.query);

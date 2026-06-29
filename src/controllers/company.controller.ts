@@ -6,11 +6,11 @@ import {
   getTrendingCompanies,
   getCompanyFunding,
   getCompanyProducts,
-} from "../services/company.service";
-import { AppError } from "../utils/error";
-import { getStringParam } from "../utils/safeParam";
-import { serializeBigInt } from "../utils/bigint";
-import { createCompanySchema } from "../validators/company.validator";
+} from "../services/company.service.js";
+import { AppError } from "../utils/error.js";
+import { getStringParam } from "../utils/safeParam.js";
+import { serializeBigInt } from "../utils/bigint.js";
+import { createCompanySchema } from "../validators/company.validator.js";
 
 export const getCompanies = async (req: Request, res: Response) => {
   const result = await fetchCompanies(req.query);

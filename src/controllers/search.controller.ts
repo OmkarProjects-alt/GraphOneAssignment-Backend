@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
-import { globalSearch, autocompleteSearch, getTrendingSearches } from "../services/search.service";
-import { AppError } from "../utils/error";
+import { globalSearch, autocompleteSearch, getTrendingSearches } from "../services/search.service.js";
+import { AppError } from "../utils/error.js";
 
 export const searchController = async (req: Request, res: Response) => {
   const q = req.query.q as string;

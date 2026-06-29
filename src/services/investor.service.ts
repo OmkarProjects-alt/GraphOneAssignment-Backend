@@ -1,6 +1,6 @@
-import { prisma } from "../lib/prisma";
+import { prisma } from "../lib/prisma.js";
 import type { Prisma } from "@prisma/client";
-import { getPagination } from "../utils/pagination";
+import { getPagination } from "../utils/pagination.js";
 
 export const getInvestors = async (query: any) => {
     const { type, location, stageFocus } = query;

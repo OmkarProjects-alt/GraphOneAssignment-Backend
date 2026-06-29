@@ -1,6 +1,6 @@
 import express from "express";
-import { platformStats } from "../controllers/stats.controller";
-import { asyncHandler } from "../utils/asyncHandler";
+import { platformStats } from "../controllers/stats.controller.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 
 const router = express.Router();
 

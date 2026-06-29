@@ -1,5 +1,5 @@
-import { prisma } from "../lib/prisma";
-import { getCache, setCache } from "../utils/cache";
+import { prisma } from "../lib/prisma.js";
+import { getCache, setCache } from "../utils/cache.js";
 
 export const globalSearch = async (q: string) => {
   if (!q) return null;

@@ -1,9 +1,9 @@
-import { prisma } from "../lib/prisma";
-import { buildCompanyFilters } from "../utils/companyFilters";
-import { getPagination } from "../utils/pagination";
-import { generateSlug } from "../utils/slug";
+import { prisma } from "../lib/prisma.js";
+import { buildCompanyFilters } from "../utils/companyFilters.js";
+import { getPagination } from "../utils/pagination.js";
+import { generateSlug } from "../utils/slug.js";
 import { z } from "zod";
-import { createCompanySchema } from "../validators/company.validator";
+import { createCompanySchema } from "../validators/company.validator.js";
 
 type CreateCompanyInput = z.infer<typeof createCompanySchema>;
 

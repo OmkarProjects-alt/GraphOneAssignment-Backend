@@ -1,5 +1,5 @@
-import { prisma } from "../lib/prisma";
-import { getPagination } from "../utils/pagination";
+import { prisma } from "../lib/prisma.js";
+import { getPagination } from "../utils/pagination.js";
 
 export const getNews = async (query: any) => {
   const { tag } = query;

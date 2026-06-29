@@ -1,6 +1,6 @@
 import express from 'express'
-import { asyncHandler } from '../utils/asyncHandler';
-import { searchController, autocompleteController, trendingController } from '../controllers/search.controller';
+import { asyncHandler } from '../utils/asyncHandler.js';
+import { searchController, autocompleteController, trendingController } from '../controllers/search.controller.js';
 
 const router = express.Router();
 

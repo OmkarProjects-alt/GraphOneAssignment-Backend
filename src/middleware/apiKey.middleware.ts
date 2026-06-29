@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import { AppError } from "../utils/error";
+import { AppError } from "../utils/error.js";
 
 export const requireApiKey = (
   req: Request,

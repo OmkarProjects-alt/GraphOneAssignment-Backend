@@ -5,14 +5,14 @@ import type { Request, Response } from "express";
 import { rateLimit } from "express-rate-limit";
 import cors from "cors";
 import helmet from "helmet";
-import { errorMiddleware } from "./middleware/error.middleware";
-import companyRoutes from "./routes/company.routes";
-import productRoutes from "./routes/product.routes";
-import investorRoutes from "./routes/investor.routes";
-import newsRoutes from "./routes/news.routes";
-import founderRoutes from "./routes/founder.routes";
-import statsRoutes from "./routes/stats.routes";
-import searchRoutes from './routes/search.routes';
+import { errorMiddleware } from "./middleware/error.middleware.js";
+import companyRoutes from "./routes/company.routes.js";
+import productRoutes from "./routes/product.routes.js";
+import investorRoutes from "./routes/investor.routes.js";
+import newsRoutes from "./routes/news.routes.js";
+import founderRoutes from "./routes/founder.routes.js";
+import statsRoutes from "./routes/stats.routes.js";
+import searchRoutes from './routes/search.routes.js';
 
 const app = express();
 

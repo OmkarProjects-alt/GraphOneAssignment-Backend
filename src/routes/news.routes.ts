@@ -3,9 +3,9 @@ import express from "express";
 import {
   listNews,
   trendingNews,
-} from "../controllers/news.controller";
+} from "../controllers/news.controller.js";
 
-import { asyncHandler } from "../utils/asyncHandler";
+import { asyncHandler } from "../utils/asyncHandler.js";
 
 const router = express.Router();
 

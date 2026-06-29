@@ -23,10 +23,10 @@ model Company {
   stage         CompanyStage
   valuation     BigInt?
   isUnicorn     Boolean        @default(false)
-  viewCount     Int            @default(0)
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
   searchVector  String?
+  viewCount     Int            @default(0)
   news          CompanyNews[]
   founders      Founder[]
   fundingRounds FundingRound[]
@@ -63,8 +63,8 @@ model Product {
   upvotes     Int             @default(0)
   websiteUrl  String?
   companyId   String
-  viewCount   Int             @default(0)
   createdAt   DateTime        @default(now())
+  viewCount   Int             @default(0)
   company     Company         @relation(fields: [companyId], references: [id])
 }
 
@@ -80,8 +80,8 @@ model Investor {
   logoUrl        String?
   stageFocus     String[]
   sectorFocus    String[]
-  viewCount      Int            @default(0)
   createdAt      DateTime       @default(now())
+  viewCount      Int            @default(0)
   leadRounds     FundingRound[]
   investments    Investment[]
 }
@@ -118,8 +118,8 @@ model NewsArticle {
   source      String
   tag         String
   summary     String
-  viewCount   Int          @default(0)
   publishedAt DateTime
+  viewCount   Int           @default(0)
   companies   CompanyNews[]
 }
 

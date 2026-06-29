@@ -1,8 +1,15 @@
 # GraphOne Backend API
 
-A production-grade REST API built with **Node.js**, **Express**, **TypeScript**, **Prisma**, and **PostgreSQL** that powers the GraphOne intelligence platform.
+![Node.js](https://img.shields.io/badge/Node.js-22-green)
+![Express](https://img.shields.io/badge/Express.js-Backend-black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)
+![Prisma](https://img.shields.io/badge/Prisma-ORM-2D3748)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-blue)
 
-The API models relationships between companies, investors, founders, products, funding rounds, and news while providing search, filtering, pagination, analytics, and validation.
+A production-grade REST API built with Node.js, Express, TypeScript, Prisma, and PostgreSQL for the GraphOne intelligence platform.
+
+The API models relationships between companies, investors, founders, products, funding rounds, and news while providing search, filtering, pagination, analytics, validation, and consistent API responses.
+
 
 ---
 
@@ -27,6 +34,25 @@ The API models relationships between companies, investors, founders, products, f
 - API Key protected POST endpoint
 - Seed script
 - Consistent JSON response format
+
+---
+
+# Architecture
+
+```text
+Client
+   │
+   ▼
+Routes
+   │
+Controllers
+   │
+Services
+   │
+Prisma ORM
+   │
+PostgreSQL
+```
 
 ---
 
@@ -58,7 +84,6 @@ src
 ├── services
 ├── utils
 ├── validators
-├── prisma
 └── server.ts
 ```
 

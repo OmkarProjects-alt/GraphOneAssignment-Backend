@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { getNews, getTrendingNews } from "../services/news.service";
+import { getNews, getTrendingNews } from "../services/news.service.js";
 
 export const listNews = async (
   req: Request,

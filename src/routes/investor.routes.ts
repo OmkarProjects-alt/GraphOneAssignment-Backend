@@ -4,8 +4,8 @@ import {
   investorProfile,
   mostActive,
   investorInvestments,
-} from "../controllers/investor.controller";
-import { asyncHandler } from "../utils/asyncHandler";
+} from "../controllers/investor.controller.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 
 const router = express.Router();
 

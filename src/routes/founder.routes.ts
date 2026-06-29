@@ -1,6 +1,6 @@
 import express from "express";
-import { founderProfile } from "../controllers/founder.controller";
-import { asyncHandler } from "../utils/asyncHandler";
+import { founderProfile } from "../controllers/founder.controller.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 
 const router = express.Router();
 

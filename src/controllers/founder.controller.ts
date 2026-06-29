@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
-import { AppError } from "../utils/error";
-import { getStringParam } from "../utils/safeParam";
-import { getFounderProfile } from "../services/founder.service";
+import { AppError } from "../utils/error.js";
+import { getStringParam } from "../utils/safeParam.js";
+import { getFounderProfile } from "../services/founder.service.js";
 
 export const founderProfile = async (
   req: Request,
